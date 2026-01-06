@@ -1,0 +1,100 @@
+// 공통 DB 설정을 불러옵니다 (경로 주의: 위로 3칸 올라가야 common에 도달)
+const pool = require('../../../common/config/database.config');
+// const Member = require('../models/member.model');
+
+class CategoryRepository {
+
+  // 전체 회원 조회
+  async findAll() {
+    const query = 'SELECT * FROM category';
+    const result = await pool.query(query);
+    
+    // 결과가 없으면 null 반환
+    if (result.rows.length === 0) {
+      return null;
+    }
+
+    const row = result.rows;
+    // DB의 raw 데이터를 모델 객체로 변환해서 반환
+    // return new Member(row.idx, row.member_id, row.member_name, row.member_password, row.member_role, row.created_at, row.updated_at);
+    return row;
+  }
+
+  // 회원의 카테고리 목록 조회
+  async findByMIdx(midx) {
+    const query = 'SELECT * FROM category WHERE m_idx = $1';
+    const result = await pool.query(query, [midx]);
+    
+    // 결과가 없으면 null 반환
+    if (result.rows.length === 0) {
+      return null;
+    }
+
+    const row = result.rows;
+    return row;
+  }
+
+  async findByIdx(midx, cidx) {
+    const query = 'SELECT * FROM category WHERE m_idx = $1 AND c_idx = $2';
+    const values = [midx, cidx]
+    const result = await pool.query(query, values);
+    
+    // 결과가 없으면 null 반환
+    if (result.rows.length === 0) {
+      return null;
+    }
+
+    const row = result.rows;
+    return row;
+  }
+
+  // 카테고리 추가
+  async create(categoryData) {
+    const query = 'INSERT INTO category (m_idx, c_name) VALUES ($1, $2)';
+    const values = [categoryData.midx, categoryData.cname];
+
+    try {
+      const result = await pool.query(query, values);
+      console.log(result);
+      return result.rows[0];
+    } catch (error) {
+      console.error('CategoryRepository create 에러:', error);
+      throw error;
+    }
+
+  }
+
+  // 카테고리 수정
+  async update(cidx, categoryData) {
+    const query = 'UPDATE category SET c_name = $1, updated_at = NOW() WHERE m_idx = $2 AND c_idx = $3';
+    const values = [categoryData.cname, categoryData.midx, cidx];
+
+    try {
+      const result = await pool.query(query, values);
+      
+      return result;
+    } catch (error) {
+      console.error('CategoryRepository update 에러:', error);
+      throw error;
+    }
+  }
+
+  // 카테고리 삭제
+  async delete(cidx, midx) {
+    const query = 'DELETE FROM category WHERE c_idx = $1 AND m_idx = $2';
+    const values = [cidx, midx];
+    try {
+      const result = await pool.query(query, values);
+      if (result.rowCount === 0) {
+        return false; 
+      }
+      return true;
+
+    } catch (error) {
+      console.error('CategoryRepository delete 에러:', error);
+      throw error;
+    }
+  }
+}
+
+module.exports = CategoryRepository;

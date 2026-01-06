@@ -1,0 +1,58 @@
+@use "variables" as *;
+
+.submit-btn {
+  // 공통 레이아웃
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  
+  // 2. 기존 변수 사용! (여기가 포인트)
+  border-radius: $border-radius-default; // 기존에 정해둔 둥글기 사용
+  background-color: $main-color;         // 기존 메인 컬러 사용
+  color: $text-white;                    // 기존 흰색 사용
+  
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: $main-color-dark;  // 기존 호버 컬러 사용
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  &:disabled {
+    background-color: $gray-400;         // 기존 회색 사용
+    cursor: not-allowed;
+  }
+
+  // 사이즈 변형 (S, M, L)
+  // 여기 수치(px)는 버튼만의 고유한 디자인 정책이라면 그냥 px로 적어도 되고,
+  // 만약 사이즈도 변수로 관리 중이라면 ($font-sm, $spacing-md 등) 그걸 넣으셔도 됩니다.
+  
+  &.small {
+    height: 32px;
+    padding: 0 12px;
+    font-size: $font-small; // 혹은 $font-size-sm
+    border-radius: 6px; 
+  }
+
+  &.medium {
+    height: 44px;
+    padding: 0 20px;
+    font-size: $font-medium; // 혹은 $font-size-md
+  }
+
+  &.large {
+    height: 56px;
+    padding: 0 32px;
+    font-size: $font-large; // 혹은 $font-size-lg
+  }
+
+  &.full {
+    width: 100%;
+  }
+}
