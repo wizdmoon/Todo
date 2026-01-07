@@ -23,6 +23,11 @@ class TodoService {
     return result;
   }
 
+  async getTodosByDate(uidx, date) {
+      const result = await this.todoRepository.findByDate(uidx, date);
+      return result;
+    }
+
 }
 
 module.exports = TodoService;

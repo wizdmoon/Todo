@@ -50,6 +50,7 @@ class TodoController {
   updateState = async (req, res) => {
     const {tidx} = req.params;
     const todoData = req.body;
+    console.log('해치웠니?');
 
     try {
         const result = await this.todoService.updateState(tidx, todoData);
@@ -84,6 +85,22 @@ class TodoController {
         return res.status(500).json({
             message: "서버 에러"
         });
+    }
+  }
+
+  getTodosByDate = async (req, res) => {
+    const {uidx} = req.params;
+    const {date} = req.query;
+
+    if (!date || !uidx) {
+      return res.status(400).json({ message: "날짜와 유저 ID가 필요합니다." });
+    }
+    try {
+      const result = await this.todoService.getTodosByDate(uidx, date);
+      res.status(200).json(result);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "서버 에러" });
     }
   }
 

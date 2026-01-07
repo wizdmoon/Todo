@@ -19,4 +19,7 @@ router.put('/:tidx/state', todoController.updateState);
 
 router.delete('/:tidx', todoController.deleteTodo);
 
+// 조회
+router.get('/:uidx', todoController.getTodosByDate);
+
 module.exports = router;

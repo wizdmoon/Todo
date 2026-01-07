@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 
 app.use('/api/users', userRoutes);
-app.use('/api/catetories', categoryRoutes);
+app.use('/api/categories', categoryRoutes);
 app.use('/api/todos', todoRoutes);
 
 app.listen(PORT, () => {

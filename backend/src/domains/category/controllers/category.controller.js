@@ -13,9 +13,9 @@ class CategoryController {
   };
 
   getCatetory = async (req, res) => {
-    const {midx} = req.params;
+    const {uidx} = req.params;
     try {
-      const result = await this.categoryService.getCategoryByMIdx(midx);
+      const result = await this.categoryService.getCategoryByMIdx(uidx);
       
       res.status(200).json(result);
     } catch (error) {
@@ -24,10 +24,10 @@ class CategoryController {
   };
 
   getOneCatetory = async (req, res) => {
-    const {midx} = req.params;
+    const {uidx} = req.params;
     const {cidx} = req.params;
     try {
-      const result = await this.categoryService.getCategoryByIdx(midx, cidx);
+      const result = await this.categoryService.getCategoryByIdx(uidx, cidx);
       
       res.status(200).json(result);
     } catch (error) {
@@ -82,10 +82,10 @@ class CategoryController {
 
   deleteCategory = async (req, res) => {
     const {cidx} = req.params;
-    const {midx} = req.body;
+    const {uidx} = req.body;
 
     try {
-      const result = await this.categoryService.deleteCategory(cidx, midx);
+      const result = await this.categoryService.deleteCategory(cidx, uidx);
             if (!result) {
         return res.status(404).json({ 
           message: "존재하지 않는 카테고리 입니다.." 

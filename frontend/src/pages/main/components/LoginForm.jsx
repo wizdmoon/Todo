@@ -35,14 +35,13 @@ export default function LoginForm() {
 
   return (
     <div className='login-container'>
+        <p>TODO</p>
         <form onSubmit={handleSubmit}>
-            <input type="text" className='id' label="ID" name="id" value={values.id} onChange={onChange} />
-            <input type="password" className='password' label="Password" name="password" value={values.password} onChange={onChange} />
-            <button type='submit' className='submit-btn small'>로그인</button>
+            <input type="text" className='id' label="ID" name="id" value={values.id} onChange={onChange} placeholder='아이디'/>
+            <input type="password" className='password' label="Password" name="password" value={values.password} onChange={onChange} placeholder='비밀번호'/>
+            <button type='submit' className='submit-btn medium'>로그인</button>
+            <button type='button' className='submit-btn medium outline'>회원가입</button>
         </form>
-        <p>
-            회원가입
-        </p>
     </div>
   )
 }

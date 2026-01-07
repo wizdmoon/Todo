@@ -1,7 +1,8 @@
 @use '../../../styles/variables' as *;
 @use '../../../styles/mixins' as *;
 
-.banner-container{
+.content-container{
     @include flex-center;
-    height: 100vh;
+    height: 100%;
+    padding: 10px;
 }
