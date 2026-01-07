@@ -3,7 +3,7 @@ const pool = require('../../../common/config/database.config');
 class TodoRepository {
 
     async create(todoData) {
-        const query = 'INSERT INTO todo (m_idx, c_idx, t_name, t_content, target_date) VALUES ($1, $2, $3, $4, $5)';
+        const query = 'INSERT INTO todo (u_idx, c_idx, t_name, t_content, target_date) VALUES ($1, $2, $3, $4, $5)';
         const values = [todoData.midx, todoData.cidx, todoData.tname, todoData.tcontent, todoData.date];
 
         try {
@@ -19,7 +19,7 @@ class TodoRepository {
 
     // Todo 수정
     async update(tidx, todoData) {
-        const query = 'UPDATE todo SET t_name = $1, t_content = $2, target_date = $3, updated_at = NOW() WHERE t_idx = $4 AND m_idx = $5';
+        const query = 'UPDATE todo SET t_name = $1, t_content = $2, target_date = $3, updated_at = NOW() WHERE t_idx = $4 AND u_idx = $5';
         const values = [todoData.tname, todoData.tcontent, todoData.date, tidx, todoData.midx];
 
         try {
@@ -33,7 +33,7 @@ class TodoRepository {
 
     // Todo 상태 변경
     async updateState(tidx, todoData) {
-        const query = 'UPDATE todo SET t_state = $1, updated_at = NOW() WHERE t_idx = $2 AND m_idx = $3';
+        const query = 'UPDATE todo SET t_state = $1, updated_at = NOW() WHERE t_idx = $2 AND u_idx = $3';
         const values = [todoData.state, tidx, todoData.midx];
 
         try {
@@ -47,7 +47,7 @@ class TodoRepository {
 
     // Todo 삭제
     async delete(tidx, midx) {
-        const query = 'DELETE FROM todo WHERE t_idx = $1 AND m_idx = $2';
+        const query = 'DELETE FROM todo WHERE t_idx = $1 AND u_idx = $2';
         const values = [tidx, midx];
 
         try {
@@ -62,39 +62,6 @@ class TodoRepository {
             throw error;
         }
     }
-
-//   // 회원의 카테고리 목록 조회
-//   async findByMIdx(midx) {
-//     const query = 'SELECT * FROM category WHERE m_idx = $1';
-//     const result = await pool.query(query, [midx]);
-    
-//     // 결과가 없으면 null 반환
-//     if (result.rows.length === 0) {
-//       return null;
-//     }
-
-//     const row = result.rows;
-//     return row;
-//   }
-
-//   async findByIdx(midx, cidx) {
-//     const query = 'SELECT * FROM category WHERE m_idx = $1 AND c_idx = $2';
-//     const values = [midx, cidx]
-//     const result = await pool.query(query, values);
-    
-//     // 결과가 없으면 null 반환
-//     if (result.rows.length === 0) {
-//       return null;
-//     }
-
-//     const row = result.rows;
-//     return row;
-//   }
-
-
-
-
-
 
 }
 

@@ -1,5 +1,5 @@
 // 실제로는 ORM(Sequelize, TypeORM, Prisma) 스키마가 들어갑니다.
-class Member {
+class User {
   constructor(idx, id, name, password, role, createdAt, updatedAt) {
     this.idx = idx;
     this.id = id;
@@ -12,4 +12,4 @@ class Member {
 }
 
 // CommonJS 방식 내보내기
-module.exports = Member;
+module.exports = User;

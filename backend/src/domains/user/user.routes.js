@@ -2,9 +2,9 @@ const express = require('express');
 const router = express.Router();
 
 // 1. 각 계층의 클래스(설계도)를 불러옵니다.
-const MemberController = require('./controllers/member.controller');
-const MemberService = require('./services/member.service');
-const MemberRepository = require('./repositories/member.repository');
+const UserController = require('./controllers/user.controller');
+const UserService = require('./services/user.service');
+const UserRepository = require('./repositories/user.repository');
 
 // ============================================================
 // [의존성 주입 (Dependency Injection) 조립 구간]
@@ -12,13 +12,13 @@ const MemberRepository = require('./repositories/member.repository');
 // ============================================================
 
 // 1단계: Repository 생성 (가장 하위 계층)
-const memberRepository = new MemberRepository();
+const userRepository = new UserRepository();
 
 // 2단계: Service 생성 (Repository를 주입)
-const memberService = new MemberService(memberRepository);
+const userService = new UserService(userRepository);
 
 // 3단계: Controller 생성 (Service를 주입)
-const memberController = new MemberController(memberService);
+const userController = new UserController(userService);
 
 
 // ============================================================
@@ -26,24 +26,24 @@ const memberController = new MemberController(memberService);
 // 조립된 controller의 메서드와 URL을 연결합니다.
 // ============================================================
 
-// GET /api/members/ -> memberController.getMembers 실행
-// 전체 member 조회
-router.get('/', memberController.getMembers);
+// GET /api/users/ -> userController.getUsers 실행
+// 전체 user 조회
+router.get('/', userController.getUsers);
 
-// idx 기준 하나의 member 조회
-router.get('/:idx', memberController.getMember);
+// idx 기준 하나의 user 조회
+router.get('/:idx', userController.getUser);
 
 // 회원 가입
-router.post('/' , memberController.createMember);
+router.post('/' , userController.createUser);
 
 // 로그인
-router.post('/login', memberController.loginMember);
+router.post('/login', userController.loginUser);
 
 // 회원 정보 수정
-router.put('/:idx' , memberController.updateMember);
+router.put('/:idx' , userController.updateUser);
 
 // 회원 탈퇴
-router.delete('/:idx' , memberController.deleteMember);
+router.delete('/:idx' , userController.deleteUser);
 
 // 완성된 라우터를 내보냅니다. (app.js에서 사용)
 module.exports = router;

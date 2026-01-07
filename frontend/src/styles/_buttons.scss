@@ -6,6 +6,7 @@
   align-items: center;
   justify-content: center;
   border: none;
+  margin: 10px;
   
   // 2. 기존 변수 사용! (여기가 포인트)
   border-radius: $border-radius-default; // 기존에 정해둔 둥글기 사용
@@ -25,34 +26,40 @@
   }
 
   &:disabled {
-    background-color: $gray-400;         // 기존 회색 사용
+    background-color: $gray-400;
     cursor: not-allowed;
   }
 
-  // 사이즈 변형 (S, M, L)
-  // 여기 수치(px)는 버튼만의 고유한 디자인 정책이라면 그냥 px로 적어도 되고,
-  // 만약 사이즈도 변수로 관리 중이라면 ($font-sm, $spacing-md 등) 그걸 넣으셔도 됩니다.
-  
   &.small {
     height: 32px;
     padding: 0 12px;
-    font-size: $font-small; // 혹은 $font-size-sm
+    font-size: $font-small;
     border-radius: 6px; 
   }
 
   &.medium {
     height: 44px;
     padding: 0 20px;
-    font-size: $font-medium; // 혹은 $font-size-md
+    font-size: $font-medium;
   }
 
   &.large {
     height: 56px;
     padding: 0 32px;
-    font-size: $font-large; // 혹은 $font-size-lg
+    font-size: $font-large;
   }
 
   &.full {
     width: 100%;
+  }&.outline {
+    background-color: transparent;
+    border: 1px solid $main-color;
+    color: $main-color;
+    &:hover {
+      background-color: $main-color;
+      color: $text-white;
+    
+    }
   }
+  
 }

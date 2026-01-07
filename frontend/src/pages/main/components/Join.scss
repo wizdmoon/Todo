@@ -1,0 +1,21 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.join-container{
+    @include flex-center;
+    height: 100vh;
+    p{
+        font-size: 30px;
+        font-weight: bold;
+        margin: 10px;
+    }
+    form{
+        @include flex-column;
+        input{
+            width: 200px;
+            margin: 10px;
+            padding: 10px;
+            border-radius: $border-radius-default;
+        }
+    }
+}

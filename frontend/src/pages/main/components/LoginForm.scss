@@ -3,7 +3,7 @@
 
 .login-container{
     @include flex-center;
-    height: 100vh;
+    height: 100%;
         form{
             @include flex-column;
             input{

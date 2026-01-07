@@ -1,0 +1,7 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.banner-container{
+    @include flex-center;
+    height: 100vh;
+}

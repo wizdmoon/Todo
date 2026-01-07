@@ -23,25 +23,6 @@ class TodoService {
     return result;
   }
 
-//   // 회원 카테고리 목록 조회
-//   async getCategoryByMIdx(midx) {
-
-//     const result = await this.categoryRepository.findByMIdx(midx);
-//     if (!result) {
-//       throw new Error('Category not found');
-//     }
-//     return result;
-//   }
-
-//   async getCategoryByIdx(midx, cidx) {
-
-//     const result = await this.categoryRepository.findByIdx(midx, cidx);
-//     if (!result) {
-//       throw new Error('Category not found');
-//     }
-//     return result;
-//   }
-
 }
 
 module.exports = TodoService;

@@ -1,41 +1,41 @@
-class MemberController {
-  constructor(memberService) {
-    this.memberService = memberService;
+class UserController {
+  constructor(userService) {
+    this.userService = userService;
   }
 
   // 전체 회원 조회
-  // router.get('/', memberController.getMembers);
-  getMembers = async (req, res) => {
+  // router.get('/', userController.getUsers);
+  getUsers = async (req, res) => {
     try {
       // 주입받은 service를 사용
-      const member = await this.memberService.getAllMembers();
+      const user = await this.userService.getAllUsers();
       
-      res.status(200).json(member);
+      res.status(200).json(user);
     } catch (error) {
       res.status(404).json({ message: error.message });
     }
   };
 
   // 회원 한명 조회
-  // router.get('/:idx', memberController.getMember);
-  getMember = async (req, res) => {
+  // router.get('/:idx', userController.getUser);
+  getUser = async (req, res) => {
     const {idx} = req.params;
     try {
       // 주입받은 service를 사용
-      const member = await this.memberService.getMemberById(idx);
+      const user = await this.userService.getUserById(idx);
       
-      res.status(200).json(member);
+      res.status(200).json(user);
     } catch (error) {
       res.status(404).json({ message: error.message });
     }
   };
 
   // 회원 가입
-  // router.post('/' , memberController.createMember);
-  createMember = async (req, res) => {
-    const member = req.body;
+  // router.post('/' , userController.createUser);
+  createUser = async (req, res) => {
+    const user = req.body;
     try {
-      const result = await this.memberService.createMember(member);
+      const result = await this.userService.createUser(user);
       
       return res.status(201).json({ 
         message: "회원가입 성공", 
@@ -53,12 +53,12 @@ class MemberController {
   };
 
   // 로그인
-  loginMember = async (req, res) => {
+  loginUser = async (req, res) => {
     console.log("로그인 요청")
-    const member = req.body;
+    const user = req.body;
 
     try {
-      const result = await this.memberService.loginMember(member);
+      const result = await this.userService.loginUser(user);
       
       if (!result) {
         return res.status(401).json({ 
@@ -79,14 +79,14 @@ class MemberController {
   }
 
   // 회원 정보 수정
-  // router.put('/:idx' , memberController.updateMember);
-  updateMember = async (req, res) => {
+  // router.put('/:idx' , userController.updateUser);
+  updateUser = async (req, res) => {
     const {idx} = req.params;
-    const member = req.body;
+    const user = req.body;
 
     try{
 
-      const result = await this.memberService.updateMember(idx, member);
+      const result = await this.userService.updateUser(idx, user);
       return res.status(200).json({
         message: "회원정보 수정 성공",
         data: result
@@ -98,13 +98,13 @@ class MemberController {
   }
 
   // 회원 탈퇴
-  // router.delete('/:idx' , memberController.deleteMember);
-  deleteMember = async (req, res) => {
+  // router.delete('/:idx' , userController.deleteUser);
+  deleteUser = async (req, res) => {
     const {idx} = req.params;
-    const member = req.body;
+    const user = req.body;
 
     try {
-      const result = await this.memberService.deleteMember(idx, member);
+      const result = await this.userService.deleteUser(idx, user);
 
       if (!result) {
         return res.status(404).json({ 
@@ -124,4 +124,4 @@ class MemberController {
 
 }
 
-module.exports = MemberController;
+module.exports = UserController;
