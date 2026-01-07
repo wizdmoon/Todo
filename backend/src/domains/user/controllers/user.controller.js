@@ -69,14 +69,43 @@ class UserController {
       console.log(result, "회원이 로그인에 성공했습니다.")
 
       return res.status(200).json({
+        success: true,
         message: "로그인 성공",
         data: result
       });
     } catch (error) {
       console.error(error);
-      return res.status(500).json({ message: "서버 오류가 발생했습니다." });
+      return res.status(401).json({ 
+        success: false,
+        message: "서버 오류가 발생했습니다." });
     }
   }
+
+  // // 로그인 컨트롤러
+  // login = async (req, res) => {
+  //   try {
+  //     const { id, password } = req.body;
+      
+  //     // Service의 loginMember 호출
+  //     const result = await this.memberService.loginMember({ id, password });
+
+  //     // 응답 전송
+  //     // 보안을 위해 Refresh Token은 HTTPOnly Cookie로 굽는 것이 좋으나,
+  //     // 현재 단계에서는 Body로 함께 넘겨주는 방식으로 설명합니다.
+  //     res.status(200).json({
+  //       success: true,
+  //       message: '로그인 성공',
+  //       data: result // accessToken, refreshToken 포함됨
+  //     });
+      
+  //   } catch (error) {
+  //     console.error(error);
+  //     res.status(401).json({ 
+  //       success: false, 
+  //       message: error.message 
+  //     });
+  //   }
+  // }
 
   // 회원 정보 수정
   // router.put('/:idx' , userController.updateUser);

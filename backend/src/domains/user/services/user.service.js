@@ -48,7 +48,46 @@ class UserService {
   // 로그인
   async loginUser(user) {
     const result = await this.userRepository.login(user);
-    return result;
+
+    if (!result) {
+      throw new Error('아이디 또는 비밀번호가 일치하지 않습니다.');
+    }
+
+    // 2. 토큰 생성 (Payload에는 식별 가능한 idx나 id 등을 담습니다)
+    const payload = { idx: result.idx, id: result.u_id };
+
+    // Access Token (유효기간 짧게: 예: 1시간)
+    const accessToken = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+    // Refresh Token (유효기간 길게: 예: 7일)
+    const refreshToken = jwt.sign({}, process.env.JWT_SECRET, { expiresIn: '7d' });
+
+    // 3. Redis에 Refresh Token 저장
+    // Key: `refreshToken:회원IDX`, Value: `토큰문자열`, 옵션: 유효기간(초 단위)
+    // 7일 = 7 * 24 * 60 * 60 초
+    await redisClient.set(
+      `refreshToken:${result.idx}`, 
+      refreshToken, 
+      { EX: 7 * 24 * 60 * 60 } 
+    );
+
+
+    // 4. 컨트롤러에게 토큰과 멤버 정보 반환
+    return {
+      accessToken,
+      refreshToken,
+      user: {
+        idx: result.idx,
+        name: result.u_name
+      }
+    };
+  }
+
+  // [추가됨] 로그아웃: Redis에서 Refresh Token 삭제
+  async logoutMember(idx) {
+    // Redis에서 해당 유저의 Refresh Token 키 삭제
+    await redisClient.del(`refreshToken:${idx}`);
+    return true;
   }
 
   // 회원 정보 수정
@@ -62,6 +101,29 @@ class UserService {
     const result = await this.userRepository.delete(idx, user);
     return result;
   }
+
+  // MemberService 클래스 내부에 추가
+async refreshAccessToken(idx, clientRefreshToken) {
+    // 1. Redis에서 해당 유저의 Refresh Token 조회
+    const savedRefreshToken = await redisClient.get(`refreshToken:${idx}`);
+
+    // 2. Redis에 없거나, 클라이언트가 보낸 것과 다르면 에러
+    if (!savedRefreshToken || savedRefreshToken !== clientRefreshToken) {
+        throw new Error('유효하지 않은 Refresh Token입니다. 다시 로그인해주세요.');
+    }
+
+    // 3. 토큰 검증 (만료 여부 확인)
+    try {
+        jwt.verify(clientRefreshToken, process.env.JWT_SECRET);
+    } catch (err) {
+        throw new Error('Refresh Token이 만료되었습니다.');
+    }
+
+    // 4. 새로운 Access Token 발급
+    const newAccessToken = jwt.sign({ idx }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+    return newAccessToken;
+}
 
 
 }
