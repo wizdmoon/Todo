@@ -53,31 +53,55 @@ class UserController {
   };
 
   // 로그인
+  // loginUser = async (req, res) => {
+  //   console.log("로그인 요청")
+  //   const user = req.body;
+
+  //   try {
+  //     const result = await this.userService.loginUser(user);
+      
+  //     if (!result) {
+  //       return res.status(401).json({ 
+  //         message: "아이디 또는 비밀번호가 올바르지 않습니다." 
+  //       });
+  //     }
+
+  //     console.log(result, "회원이 로그인에 성공했습니다.")
+
+  //     return res.status(200).json({
+  //       success: true,
+  //       message: "로그인 성공",
+  //       data: result
+  //     });
+  //   } catch (error) {
+  //     console.error(error);
+  //     return res.status(401).json({ 
+  //       success: false,
+  //       message: "서버 오류가 발생했습니다." });
+  //   }
+  // }
+
   loginUser = async (req, res) => {
     console.log("로그인 요청")
     const user = req.body;
 
     try {
+      // Service에서 토큰과 유저 정보를 받아옴
       const result = await this.userService.loginUser(user);
       
-      if (!result) {
-        return res.status(401).json({ 
-          message: "아이디 또는 비밀번호가 올바르지 않습니다." 
-        });
-      }
-
-      console.log(result, "회원이 로그인에 성공했습니다.")
-
+      // [선택] Refresh Token을 쿠키에 저장할 수도 있고, Body로 줄 수도 있습니다.
+      // 여기서는 Body로 다 같이 보내는 방식으로 작성합니다.
       return res.status(200).json({
         success: true,
         message: "로그인 성공",
-        data: result
+        data: result // { accessToken, refreshToken, user }
       });
     } catch (error) {
       console.error(error);
       return res.status(401).json({ 
         success: false,
-        message: "서버 오류가 발생했습니다." });
+        message: error.message || "로그인 실패" 
+      });
     }
   }
 
@@ -122,6 +146,35 @@ class UserController {
     } catch (error) {
       console.error(error);
       return res.status(500).json({ message: "서버 에러" });
+    }
+  }
+
+  // [추가] 로그아웃
+  logoutUser = async (req, res) => {
+    // 로그인된 사용자의 idx가 필요합니다. (미들웨어를 통해 req.user.idx에 있다고 가정하거나 body로 받음)
+    // 여기서는 예시로 body에서 idx를 받는다고 가정합니다.
+    const { idx } = req.body; 
+
+    try {
+      await this.userService.logoutMember(idx);
+      res.status(200).json({ message: "로그아웃 성공" });
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
+
+  // [추가] 토큰 재발급
+  refreshToken = async (req, res) => {
+    const { idx, refreshToken } = req.body;
+
+    try {
+      const newAccessToken = await this.userService.refreshAccessToken(idx, refreshToken);
+      res.status(200).json({ 
+        message: "토큰 재발급 성공",
+        accessToken: newAccessToken
+      });
+    } catch (error) {
+      res.status(401).json({ message: error.message });
     }
   }
 

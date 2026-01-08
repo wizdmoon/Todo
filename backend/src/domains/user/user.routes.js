@@ -39,6 +39,12 @@ router.post('/' , userController.createUser);
 // 로그인
 router.post('/login', userController.loginUser);
 
+// [추가] 로그아웃
+router.post('/logout', userController.logoutUser);
+
+// [추가] 토큰 재발급
+router.post('/refresh', userController.refreshToken);
+
 // 회원 정보 수정
 router.put('/:idx' , userController.updateUser);
 

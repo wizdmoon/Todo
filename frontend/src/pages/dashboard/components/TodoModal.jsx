@@ -34,7 +34,6 @@ function TodoModal({ isOpen, onClose }) {
         createTodo.mutate(formData, {
             onSuccess: () => {
                 onClose(); // 성공하면 모달 닫기
-                // 입력 폼 초기화
                 setFormData({ uidx: '', tname: '', tcontent: '', cidx: categoryList[0]?.c_idx || '', date: dayjs().format('YYYY-MM-DD') });
             }
         });
