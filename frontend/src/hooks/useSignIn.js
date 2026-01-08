@@ -8,17 +8,16 @@ export default function useSignIn(opts = {}) {
     return useMutation({
         mutationKey: ['user', 'login'],
         mutationFn: async ({ id, password }) => {
-            const res = await api.post('/users/login', { id, password }, { withCredentials: true });
-            return res.data; // { userId, username }
+            const res = await api.post('/users/login', { id, password });
+            return res.data.data; 
         },
         onSuccess: async (data) => {
             setUser(data);
             opts.onSuccess?.(data);
         },
         onError: (err) => {
-            const msg = err?.status === 401 ? '아이디 또는 비밀번호가 올바르지 않습니다.' : err?.message || '로그인 실패';
+            const msg = err.response?.data?.message || '로그인 실패';
             opts.onError?.(msg);
         },
     });
-
 }
