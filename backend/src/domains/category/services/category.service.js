@@ -14,18 +14,18 @@ class CategoryService {
   }
 
   // 회원 카테고리 목록 조회
-  async getCategoryByMIdx(midx) {
+  async getCategoryByUIdx(uidx) {
 
-    const result = await this.categoryRepository.findByMIdx(midx);
+    const result = await this.categoryRepository.findByUIdx(uidx);
     if (!result) {
       throw new Error('Category not found');
     }
     return result;
   }
 
-  async getCategoryByIdx(midx, cidx) {
+  async getCategoryByIdx(uidx, cidx) {
 
-    const result = await this.categoryRepository.findByIdx(midx, cidx);
+    const result = await this.categoryRepository.findByIdx(uidx, cidx);
     if (!result) {
       throw new Error('Category not found');
     }
@@ -45,8 +45,8 @@ class CategoryService {
   }
 
   // 카테고리 삭제
-  async deleteCategory(cidx, midx) {
-    const result = await this.categoryRepository.delete(cidx, midx);
+  async deleteCategory(cidx, uidx) {
+    const result = await this.categoryRepository.delete(cidx, uidx);
     return result;
   }
 }

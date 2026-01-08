@@ -1,19 +1,33 @@
 @use '../../styles/variables' as *;
 @use '../../styles/mixins' as *;
 
-.dashboard-container{
+.dashboard-container {
     display: flex;
     height: 100vh;
     width: 100%;
-    .sidebar-section{
+    overflow: hidden; // ★ 중요: 브라우저 전체(body)의 스크롤을 막습니다.
+
+    .sidebar-section {
         flex: 1.5;
         background-color: $main-color;
-        overflow: hidden;
+        // overflow: hidden; // 사이드바 내용도 길어지면 스크롤이 필요할 수 있으니 상황에 따라 auto로 변경 고려
         height: 100%;
     }
-    .content-section{
+
+    .content-section {
         flex: 8.5;
         height: 100%;
+        
+        // ★ 핵심 수정: 내용이 넘칠 때 이 영역 안에서만 세로 스크롤 생성
+        overflow-y: auto; 
+        
+        // ★ 주의: flex-center가 (justify-content: center; align-items: center;)라면 
+        // 내용이 화면보다 길어졌을 때 위쪽이 잘리거나 스크롤이 꼬일 수 있습니다.
+        // 스크롤이 필요한 긴 화면(달력 등)에서는 보통 가운데 정렬을 풉니다.
         @include flex-center;
+        
+        // 대신 내용물이 자연스럽게 위에서부터 쌓이도록 설정
+        // display: block; 
+        // position: relative; // 모달 등의 위치 기준을 위해 추가하면 좋습니다.
     }
 }

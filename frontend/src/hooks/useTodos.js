@@ -70,6 +70,41 @@ export default function useTodos(uidx, filter, enabled = true) {
     onError: (err) => alert(err.message)
   });
 
+  const updateTodo = useMutation({
+    mutationFn: async ({tidx, todoData}) => {
+
+      console.log('통신전 확인');
+      console.log(tidx);
+      console.log(todoData);
+      const res = await api.put(`/todos/${tidx}`, todoData);
+      return res.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(['todos', uidx, filter]);
+      alert('일정이 수정되었습니다!');
+    },
+  });
+
+
+  // router.delete('/:tidx', todoController.deleteTodo);
+  // deleteTodo = async (req, res) => {
+  //   const {tidx} = req.params;
+  //   const {uidx} = req.body;
+  const deleteTodo = useMutation({
+    mutationFn: async (tidx) => {
+      console.log('uidx: ', uidx);
+      const res = await api.delete(`/todos/${tidx}`, {
+      data: { uidx: uidx } 
+    });
+      return res.data;
+    },
+    onSuccess: () => {
+    queryClient.invalidateQueries(['todos', uidx, filter]);
+    alert('일정이 삭제되었습니다!');
+    },
+    onError: (err) => alert(err.message)
+  });
+
 
   // --- [새로 추가된 코드] 투두 상태 변경 (Mutation) ---
   const updateStateMutation = useMutation({
@@ -104,6 +139,8 @@ export default function useTodos(uidx, filter, enabled = true) {
     isError, 
     refetch,
     createTodo,
+    deleteTodo,
+    updateTodo,
     // 3. 컴포넌트에서 쓸 수 있도록 함수 내보내기 (이름을 updateTodoState로 변경)
     updateTodoState: updateStateMutation.mutate 
   };

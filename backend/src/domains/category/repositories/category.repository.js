@@ -6,7 +6,7 @@ class CategoryRepository {
 
   // 전체 회원 조회
   async findAll() {
-    const query = 'SELECT * FROM category';
+    const query = 'SELECT * FROM category ORDER BY c_idx ASC';
     const result = await pool.query(query);
     
     // 결과가 없으면 null 반환
@@ -15,14 +15,13 @@ class CategoryRepository {
     }
 
     const row = result.rows;
-    // DB의 raw 데이터를 모델 객체로 변환해서 반환
-    // return new Member(row.idx, row.member_id, row.member_name, row.member_password, row.member_role, row.created_at, row.updated_at);
+
     return row;
   }
 
   // 회원의 카테고리 목록 조회
   async findByUIdx(uidx) {
-    const query = 'SELECT * FROM category WHERE u_idx = $1';
+    const query = 'SELECT * FROM category WHERE u_idx = $1 ORDER BY c_idx ASC';
     const result = await pool.query(query, [uidx]);
     
     // 결과가 없으면 null 반환
@@ -35,7 +34,7 @@ class CategoryRepository {
   }
 
   async findByIdx(uidx, cidx) {
-    const query = 'SELECT * FROM category WHERE u_idx = $1 AND c_idx = $2';
+    const query = 'SELECT * FROM category WHERE u_idx = $1 AND c_idx = $2 ORDER BY c_idx ASC';
     const values = [uidx, cidx]
     const result = await pool.query(query, values);
     

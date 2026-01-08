@@ -20,8 +20,8 @@ class TodoRepository {
 
     // Todo 수정
     async update(tidx, todoData) {
-        const query = 'UPDATE todo SET t_name = $1, t_content = $2, target_date = $3, updated_at = NOW() WHERE t_idx = $4 AND u_idx = $5';
-        const values = [todoData.tname, todoData.tcontent, todoData.date, tidx, todoData.uidx];
+        const query = 'UPDATE todo SET t_name = $1, t_content = $2, target_date = $3, c_idx = $4, updated_at = NOW() WHERE t_idx = $5 AND u_idx = $6';
+        const values = [todoData.tname, todoData.tcontent, todoData.date, todoData.cidx, tidx, todoData.uidx];
 
         try {
             const result = await pool.query(query, values);
@@ -66,7 +66,7 @@ class TodoRepository {
 
     // Todo 조회
     async findByDate(uidx, date) {
-        const query = 'SELECT * FROM todo WHERE u_idx = $1 AND target_date = $2 ORDER BY created_at ASC';
+        const query = 'SELECT * FROM todo WHERE u_idx = $1 AND target_date = $2 ORDER BY target_date ASC';
         const values = [uidx, date];
 
         try{
@@ -80,7 +80,7 @@ class TodoRepository {
     }
 
     async findAllByUser(uidx) {
-        const query = `SELECT * FROM todos WHERE u_idx = $1 ORDER BY t_date ASC`;
+        const query = `SELECT * FROM todo WHERE u_idx = $1 ORDER BY target_date ASC`;
         const { rows } = await pool.query(query, [uidx]);
         return rows;
     }

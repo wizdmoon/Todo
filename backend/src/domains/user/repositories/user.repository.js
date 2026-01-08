@@ -6,7 +6,7 @@ class UserRepository {
 
   // 전체 회원 조회
   async findAll() {
-    const query = 'SELECT * FROM users';
+    const query = 'SELECT * FROM users ORDER BY idx ASC';
     const result = await pool.query(query);
     
     // 결과가 없으면 null 반환
@@ -22,7 +22,7 @@ class UserRepository {
 
   // 회원 한명 조회
   async findByIdx(idx) {
-    const query = 'SELECT * FROM users WHERE idx = $1';
+    const query = 'SELECT * FROM users WHERE idx = $1 ORDER BY idx ASC';
     const result = await pool.query(query, [idx]);
     
     // 결과가 없으면 null 반환
@@ -56,7 +56,7 @@ class UserRepository {
   // 로그인
   async login(user) {
     try {
-      const query = 'SELECT * FROM users WHERE u_id = $1 AND u_password = $2'
+      const query = 'SELECT * FROM users WHERE u_id = $1 AND u_password = $2 ORDER BY idx ASC'
       const values = [user.id, user.password];
       const result = await pool.query(query, values);
 

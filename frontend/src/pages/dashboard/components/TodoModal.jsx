@@ -73,7 +73,7 @@ function TodoModal({ isOpen, onClose }) {
 
           <div className="form-group">
             <label>카테고리</label>
-            <select name="categoryIdx" value={formData.categoryIdx} onChange={handleChange}>
+            <select name="cidx" value={formData.categoryIdx} onChange={handleChange}>
               <option value="" disabled>카테고리 선택</option>
               {categoryList.map((cat) => (
                 <option key={cat.c_idx} value={cat.c_idx}>{cat.c_name}</option>

@@ -35,6 +35,10 @@ class TodoController {
     const {tidx} =  req.params;
     const todoData = req.body;
 
+    console.log('updateTodo 확인');
+    console.log(tidx);
+    console.log(todoData);
+
     try {
         const result = await this.todoService.updateTodo(tidx, todoData);
         return res.status(200).json({
@@ -66,10 +70,11 @@ class TodoController {
 
   deleteTodo = async (req, res) => {
     const {tidx} = req.params;
-    const {midx} = req.body;
+    console.log(req.body);
+    const {uidx} = req.body;
 
     try {
-        const result = await this.todoService.deleteTodo(tidx, midx);
+        const result = await this.todoService.deleteTodo(tidx, uidx);
         
         if(!result) {
             return res.status(404).json({
@@ -108,8 +113,8 @@ class TodoController {
   try {
     const { uidx } = req.params;
     const { filter } = req.query;
-    const todos = await this.todoService.getFilteredTodos(uidx, filter || 'all');
-    res.status(200).json(todos);
+    const result = await this.todoService.getFilteredTodos(uidx, filter || 'all');
+    res.status(200).json(result);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

@@ -9,6 +9,7 @@ import { useCategoryStore } from '../../store/useCategoryStore'
 import TodoModal from './components/TodoModal';
 import { useTodoStore } from '../../store/useTodoStore';
 import CategoryModal from './components/CategoryModal';
+import TodoInfoModal from './components/TodoInfoModal';
 
 function Dashboard() {
   const userInfo = useAuthStore((s) => s.user);
@@ -18,6 +19,7 @@ function Dashboard() {
   const categoryList = useCategoryStore((s) => s.categories);
   const { isCreateModalOpen, closeCreateModal } = useTodoStore();
   const { isManageModalOpen, closeManageModal } = useCategoryStore();
+  const { isInfoModalOpen, closeInfoModal } = useTodoStore();
 
 
   console.log(categoryList);
@@ -32,6 +34,7 @@ function Dashboard() {
     if( userInfo === null ){
       navigate('/')
     }
+    navigate('/dashboard/todos?filter=today')
   }, []);
 
   return (
@@ -54,6 +57,15 @@ function Dashboard() {
         onClose={closeManageModal} 
       />
         )}
+
+        {isInfoModalOpen && (
+        <TodoInfoModal 
+        isOpen={isInfoModalOpen} 
+        onClose={closeInfoModal} 
+      />
+        )}
+
+
     </div>
   )
 }

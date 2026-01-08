@@ -12,10 +12,10 @@ class CategoryController {
     }
   };
 
-  getCatetory = async (req, res) => {
+  getCategory = async (req, res) => {
     const {uidx} = req.params;
     try {
-      const result = await this.categoryService.getCategoryByMIdx(uidx);
+      const result = await this.categoryService.getCategoryByUIdx(uidx);
       
       res.status(200).json(result);
     } catch (error) {

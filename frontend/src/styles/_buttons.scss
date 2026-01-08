@@ -63,3 +63,17 @@
   }
   
 }
+
+.close-btn {
+      background: none;
+      border: none;
+      font-size: 28px;
+      color: #999;
+      cursor: pointer;
+      line-height: 1;
+      transition: color 0.2s;
+
+      &:hover {
+        color: #333;
+      }
+    }

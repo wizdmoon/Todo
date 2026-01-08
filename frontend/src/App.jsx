@@ -17,10 +17,10 @@ function App() {
             <Route path="/" element={<Main />} />
             <Route path="/join" element={<Join />} />
             <Route path="/dashboard" element={<Dashboard />}>
-              {/* <Route path="todos" element={<TodoPage />} /> */}
-              <Route path="todos" element={<Today />} />
-              <Route path="content" element={<Content />} />
-              <Route path='search' element={<Search />} />
+              <Route path="todos" element={<TodoPage />} />
+              {/* <Route path="todos" element={<Today />} /> */}
+              {/* <Route path="content" element={<Content />} /> */}
+              {/* <Route path='search' element={<Search />} /> */}
             </Route>
     </Routes>
   )

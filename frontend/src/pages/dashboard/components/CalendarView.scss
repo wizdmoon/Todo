@@ -1,0 +1,137 @@
+@use '../../../styles/variables' as *;
+
+.calendar-container {
+  width: 100%;
+  height: 100%; 
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  overflow: hidden; 
+
+  // 1. 헤더 영역
+  .calendar-header {
+    flex: 0 0 auto; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
+
+    h2 {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .nav-btn {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #666;
+      padding: 5px;
+      border-radius: 50%;
+      transition: 0.2s;
+      
+      &:hover {
+        background-color: #f0f0f0;
+        color: $main-color; 
+      }
+    }
+  }
+
+  // 2. 요일 헤더
+  .weekday-header {
+    flex: 0 0 auto;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr); 
+    text-align: center;
+    font-weight: bold;
+    padding-bottom: 10px;
+    color: #666;
+    border-bottom: 1px solid #eee; 
+
+    .sunday { color: #ff6b6b; }
+    .saturday { color: #4dabf7; }
+  }
+
+  // 3. 날짜 그리드
+  .calendar-grid {
+    flex: 1; 
+    display: grid;
+    grid-template-columns: repeat(7, 1fr); 
+    grid-template-rows: repeat(6, 1fr); // 6줄로 균등 분할
+    
+    gap: 1px;
+    background-color: #eee; 
+    border: 1px solid #eee;
+    overflow: hidden; 
+
+    .calendar-cell {
+      background-color: #fff;
+      padding: 4px; 
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      
+      &.empty {
+        background-color: #fafafa;
+      }
+
+      .date-num {
+        font-weight: bold;
+        font-size: 13px;
+        margin-left: 4px;
+        &.sunday { color: #ff6b6b; }
+        &.saturday { color: #4dabf7; }
+      }
+
+      // 투두 리스트 영역
+      .cell-todos {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        overflow: hidden; // 이제 JS로 개수를 자르므로 스크롤 불필요
+
+        .mini-todo {
+          font-size: 11px;
+          background-color: rgba($main-color, 0.1); // 연한 배경
+          border-left: 3px solid $main-color; // 왼쪽 강조선 (일정 느낌) 
+          color: #333;
+          padding: 2px 6px;
+          border-radius: 2px; // 살짝만 둥글게
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          cursor: pointer;
+          transition: all 0.2s;
+
+          &:hover {
+            background-color: rgba($main-color, 0.2);
+            transform: translateY(-1px);
+          }
+
+          &.done {
+            background-color: #f1f3f5;
+            border-left-color: #adb5bd;
+            color: #adb5bd;
+            text-decoration: line-through;
+          }
+        }
+
+        // ★ 새로 추가된 "+N more" 배지 스타일
+        .more-todo-badge {
+            font-size: 11px;
+            color: #999;
+            font-weight: 600;
+            padding-left: 6px;
+            margin-top: 2px;
+        }
+      }
+    }
+  }
+}

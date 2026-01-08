@@ -38,6 +38,18 @@ class TodoService {
     const today = new Date();
     startDate = today.toISOString().split('T')[0]; // "2026-01-07"
     endDate = startDate; 
+  } else if (filter === 'yesterday') {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() - 1);
+    
+    startDate = tomorrow.toISOString().split('T')[0];
+    endDate = startDate;
+  } else if (filter === 'tomorrow') {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    
+    startDate = tomorrow.toISOString().split('T')[0];
+    endDate = startDate;
   } else if (filter === 'week') {
     const first = now.getDate() - now.getDay();
     const last = first + 6;
@@ -47,7 +59,6 @@ class TodoService {
   } else if (filter === 'all') {
     return await this.todoRepository.findAllByUser(userIdx);
   }
-  console.log(startDate);
 
   // 이제 문자열 형태의 "YYYY-MM-DD"가 Repository로 전달됩니다.
   return await this.todoRepository.findByDateRange(userIdx, startDate, endDate);

@@ -1,14 +1,16 @@
+@use '../../../styles/variables' as *; // 변수 파일이 있다면 유지
+
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.4); // 배경을 살짝 더 투명하게 조정
+  background: rgba(0, 0, 0, 0.4);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 2000; // 사이드바보다 위에 뜨도록 높임
+  z-index: 2000;
   backdrop-filter: blur(5px);
 }
 
@@ -20,6 +22,8 @@
   max-width: 480px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
   animation: slideDown 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  display: flex;
+  flex-direction: column; // 내부 요소들을 세로로 정렬
 
   .modal-header {
     display: flex;
@@ -49,33 +53,24 @@
     }
   }
 
+  // 1. 등록 폼 영역
   .category-form {
     display: flex;
     flex-direction: column;
-    gap: 18px; // 요소 간의 간격 확보
+    margin-bottom: 10px; // 리스트와의 간격
 
     .form-group {
       display: flex;
-    //   flex-direction: column;
-    justify-content: space-between;
+      justify-content: space-between;
       gap: 8px;
-      button{
+      
+      button {
         margin: 0px;
       }
 
-      label {
-        font-size: 14px;
-        font-weight: 600;
-        color: #555;
-      }
-
-      input{
-        width: 80%;
-      }
-
-      input,
-      select,
-      textarea {
+      input {
+        width: 100%; // flex 컨테이너 안에서 가득 차게 변경
+        flex: 1;     // 남은 공간 차지
         padding: 12px;
         border: 1px solid #e2e8f0;
         border-radius: 8px;
@@ -94,25 +89,122 @@
           box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
         }
       }
+    }
+  }
 
-      textarea {
-        height: 120px;
-        resize: none;
-        line-height: 1.5;
-      }
+  // 2. 카테고리 리스트 영역 (새로 추가/수정된 부분)
+  .categorylist-section {
+    max-height: 300px; // 너무 길어지면 스크롤 생김
+    overflow-y: auto;
+    margin-bottom: 20px;
+    border-top: 1px solid #f1f3f5; // 상단 구분선
+    padding-top: 10px;
 
-      select {
-        cursor: pointer;
-        background-color: #fff;
-      }
+    // 스크롤바 디자인 (선택사항)
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: #e2e8f0;
+      border-radius: 3px;
     }
 
-    .form-actions {
+    .category-item {
       display: flex;
-      justify-content: flex-end;
-      gap: 12px;
-      margin-top: 10px;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 4px;
+      border-bottom: 1px solid #f8f9fa;
+      min-height: 44px; // 높이를 고정해서 수정 모드 전환 시 덜컹거림 방지
 
+      // 카테고리 이름 텍스트
+      p {
+        margin: 0;
+        font-size: 15px;
+        color: #333;
+        flex: 1; // 이름이 공간을 차지해서 버튼을 오른쪽으로 밈
+        word-break: break-all;
+      }
+
+      // 수정 모드일 때 나타나는 입력창
+      .edit-input {
+        flex: 1;
+        padding: 8px;
+        margin-right: 8px;
+        border: 1px solid #cbd5e0;
+        border-radius: 6px;
+        font-size: 14px;
+        
+        &:focus {
+            outline: none;
+            border-color: #3182ce;
+        }
+      }
+
+      // 버튼 그룹 (아이콘 버튼들)
+      .btn-group {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+
+        .icon-btn {
+          background: none;
+          border: none;
+          cursor: pointer;
+          padding: 6px;
+          border-radius: 6px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 18px; // 아이콘 크기
+          transition: all 0.2s;
+          
+          // 수정(연필) 버튼
+          &.edit {
+            color: #718096;
+            &:hover { color: #3182ce; background-color: #ebf8ff; }
+          }
+          
+          // 삭제(휴지통/X) 버튼
+          &.delete {
+            color: #718096;
+            &:hover { color: #e53e3e; background-color: #fff5f5; }
+          }
+          
+          // 저장(체크) 버튼
+          &.save {
+            color: #38a169;
+            &:hover { background-color: #f0fff4; }
+          }
+          
+          // 취소(X) 버튼
+          &.cancel {
+            color: #e53e3e;
+            &:hover { background-color: #fff5f5; }
+          }
+        }
+      }
+    }
+  }
+
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    
+    // 닫기 버튼 스타일 (선택사항)
+    button {
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+        
+        &.outline {
+            background: white;
+            border: 1px solid #cbd5e0;
+            color: #4a5568;
+            &:hover { background: #f7fafc; }
+        }
     }
   }
 }

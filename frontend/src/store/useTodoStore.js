@@ -5,5 +5,22 @@ export const useTodoStore = create((set) => ({
   isCreateModalOpen: false, 
   openCreateModal: () => set({ isCreateModalOpen: true }),
   closeCreateModal: () => set({ isCreateModalOpen: false }),
+
+  isInfoModalOpen: false,
+  selectedTidx: null,
+  openInfoModal: (tidx = null) => set({ 
+    isInfoModalOpen: true, 
+    selectedTidx: tidx
+  }),
+  closeInfoModal: () => set({ 
+    isInfoModalOpen: false, 
+    selectedTidx: null
+  }),
+
+
+
+
+
+
   setTodos: (todos) => set({ todos }),
 }));

@@ -16,7 +16,7 @@ router.get('/', categoryController.getCategories);
 router.post('/', categoryController.createCategory);
 
 // idx 기준 하나의 member 조회
-router.get('/:uidx', categoryController.getCatetory);
+router.get('/:uidx', categoryController.getCategory);
 
 router.get('/:uidx/:cidx', categoryController.getOneCatetory);
 
