@@ -4,7 +4,7 @@ const categoryRoutes = require('./domains/category/category.routes.js');
 const todoRoutes = require('./domains/todo/todo.routes.js');
 const dotenv = require('dotenv');
 
-require('./common/config/redis.config.js');
+// require('./common/config/redis.config.js');
 
 dotenv.config();
 

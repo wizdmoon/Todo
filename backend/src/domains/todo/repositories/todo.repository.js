@@ -79,6 +79,23 @@ class TodoRepository {
 
     }
 
+    async findAllByUser(uidx) {
+        const query = `SELECT * FROM todos WHERE u_idx = $1 ORDER BY t_date ASC`;
+        const { rows } = await pool.query(query, [uidx]);
+        return rows;
+    }
+
+    // 특정 날짜 범위 조회 ('today', 'week' 필터용)
+    async findByDateRange(uidx, startDate, endDate) {
+        const query = `
+        SELECT * FROM todo
+        WHERE u_idx = $1 AND target_date BETWEEN $2 AND $3
+        ORDER BY target_date ASC
+        `;
+        const { rows } = await pool.query(query, [uidx, startDate, endDate]);
+        return rows;
+    }
+
 }
 
 // 클래스 정의 후 내보내기

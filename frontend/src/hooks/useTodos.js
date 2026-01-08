@@ -34,21 +34,20 @@ import { useTodoStore } from '../store/useTodoStore';
 import { useEffect } from 'react';
 import api from '../utils/api';
 
-export default function useTodos(uidx, date) {
+export default function useTodos(uidx, filter, enabled = true) {
   const setTodos = useTodoStore((state) => state.setTodos);
   const queryClient = useQueryClient(); // 2. 쿼리 클라이언트 가져오기
 
-  // --- [기존 코드 유지] 투두 목록 조회 ---
   const { data, isLoading, isError, refetch } = useQuery({
-    queryKey: ['todos', uidx, date],
+    queryKey: ['todos', uidx, filter],
     queryFn: async () => {
-      // 기존에 작성하신 로직 그대로 유지
       const res = await api.get(`/todos/${uidx}`, {
-        params: { date: date } 
+        params: { filter } 
       });
       return res.data;
     },
     staleTime: 1000 * 60,
+    enabled: !!uidx && enabled,
   });
 
   useEffect(() => {
@@ -56,6 +55,20 @@ export default function useTodos(uidx, date) {
       setTodos(data);
     }
   }, [data, setTodos]);
+
+  const createTodo = useMutation({
+    mutationFn: async (newTodo) =>  {
+      console.log('newTodo: ', newTodo)
+      const res = await api.post('/todos', newTodo);
+      return res.data;
+    },
+    onSuccess: () => {
+      // 등록 성공 시 목록을 새로고침 (캐시 무효화)
+      queryClient.invalidateQueries(['todos', uidx, filter]);
+      alert('일정이 등록되었습니다!');
+    },
+    onError: (err) => alert(err.message)
+  });
 
 
   // --- [새로 추가된 코드] 투두 상태 변경 (Mutation) ---
@@ -90,6 +103,7 @@ export default function useTodos(uidx, date) {
     isLoading, 
     isError, 
     refetch,
+    createTodo,
     // 3. 컴포넌트에서 쓸 수 있도록 함수 내보내기 (이름을 updateTodoState로 변경)
     updateTodoState: updateStateMutation.mutate 
   };

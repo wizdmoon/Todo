@@ -3,12 +3,13 @@ import './Join.scss';
 import useJoin from '../../../hooks/useJoin';
 import {useNavigate } from 'react-router-dom';
 
-function Join() {
+function Join({onCancel}) {
 
   const {mutate: join, isPending} = useJoin({
     onSuccess: () => {
       alert('회원가입 성공');
-      navigate('/');
+      // navigate('/');
+      onCancel();
     },
     onError: (error) => {
       alert(error);
@@ -39,8 +40,8 @@ function Join() {
             <input type="password" label="Password" name='password' value={values.password} onChange={onChange} placeholder='비밀번호'/>
             <input type="text" label='Name' name='name' value={values.name} onChange={onChange} placeholder='이름'/>
             <div>
-                <button type='submit' className='submit-btn small'>회원 가입</button>
-                <button type='button' className='submit-btn outline small'>취소</button>
+                <button type='submit' className='submit-btn medium'>회원 가입</button>
+                <button type='button' className='submit-btn outline medium' onClick={onCancel}>취소</button>
             </div>
         </form>
     </div>

@@ -7,15 +7,19 @@
     p{
         font-size: 30px;
         font-weight: bold;
-        margin: 10px;
+        margin-bottom: 30px;
+        color: $main-color
     }
     form{
         @include flex-column;
         input{
-            width: 200px;
-            margin: 10px;
+            width: 300px;
             padding: 10px;
+            margin-bottom: 20px;
             border-radius: $border-radius-default;
+        }
+        button{
+            width: 140px;
         }
     }
 }

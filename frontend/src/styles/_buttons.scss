@@ -1,24 +1,22 @@
 @use "variables" as *;
 
 .submit-btn {
-  // 공통 레이아웃
   display: inline-flex;
   align-items: center;
   justify-content: center;
   border: none;
   margin: 10px;
   
-  // 2. 기존 변수 사용! (여기가 포인트)
-  border-radius: $border-radius-default; // 기존에 정해둔 둥글기 사용
-  background-color: $main-color;         // 기존 메인 컬러 사용
-  color: $text-white;                    // 기존 흰색 사용
+  border-radius: $border-radius-default;
+  background-color: $main-color;
+  color: $text-white;
   
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
 
   &:hover {
-    background-color: $main-color-dark;  // 기존 호버 컬러 사용
+    background-color: $main-color-dark;
   }
 
   &:active {
@@ -51,7 +49,9 @@
 
   &.full {
     width: 100%;
-  }&.outline {
+  }
+  
+  &.outline {
     background-color: transparent;
     border: 1px solid $main-color;
     color: $main-color;

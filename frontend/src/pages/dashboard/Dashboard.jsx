@@ -6,6 +6,9 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../store/useAuthStore';
 import useCategories from '../../hooks/useCategories';
 import { useCategoryStore } from '../../store/useCategoryStore'
+import TodoModal from './components/TodoModal';
+import { useTodoStore } from '../../store/useTodoStore';
+import CategoryModal from './components/CategoryModal';
 
 function Dashboard() {
   const userInfo = useAuthStore((s) => s.user);
@@ -13,6 +16,9 @@ function Dashboard() {
   console.log('userIdx: ', userInfo.data.idx);
   console.log('userID: ', userInfo.data.u_id);
   const categoryList = useCategoryStore((s) => s.categories);
+  const { isCreateModalOpen, closeCreateModal } = useTodoStore();
+  const { isManageModalOpen, closeManageModal } = useCategoryStore();
+
 
   console.log(categoryList);
 
@@ -36,6 +42,18 @@ function Dashboard() {
         <div className='content-section'>
             <Outlet />
         </div>
+        {isCreateModalOpen && (
+        <TodoModal 
+        isOpen={isCreateModalOpen} 
+        onClose={closeCreateModal} 
+      />
+        )}
+        {isManageModalOpen && (
+        <CategoryModal 
+        isOpen={isManageModalOpen} 
+        onClose={closeManageModal} 
+      />
+        )}
     </div>
   )
 }

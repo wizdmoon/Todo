@@ -104,6 +104,17 @@ class TodoController {
     }
   }
 
+  getTodos = async (req, res) => {
+  try {
+    const { uidx } = req.params;
+    const { filter } = req.query;
+    const todos = await this.todoService.getFilteredTodos(uidx, filter || 'all');
+    res.status(200).json(todos);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
 }
 
 module.exports = TodoController;

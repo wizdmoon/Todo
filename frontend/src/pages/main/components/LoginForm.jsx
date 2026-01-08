@@ -4,7 +4,7 @@ import useSignIn from '../../../hooks/useSignIn';
 import { Navigate, useNavigate } from 'react-router-dom';
 import './LoginForm.scss';
 
-export default function LoginForm() {
+export default function LoginForm({onJoinClick}) {
     
     const { mutate: signIn, isPending } = useSignIn({
         onSuccess: () => {
@@ -40,7 +40,7 @@ export default function LoginForm() {
             <input type="text" className='id' label="ID" name="id" value={values.id} onChange={onChange} placeholder='아이디'/>
             <input type="password" className='password' label="Password" name="password" value={values.password} onChange={onChange} placeholder='비밀번호'/>
             <button type='submit' className='submit-btn medium'>로그인</button>
-            <button type='button' className='submit-btn medium outline'>회원가입</button>
+            <button type='button' className='submit-btn medium outline' onClick={onJoinClick}>회원가입</button>
         </form>
     </div>
   )

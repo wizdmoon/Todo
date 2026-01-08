@@ -1,0 +1,129 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.4); // 배경을 살짝 더 투명하게 조정
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000; // 사이드바보다 위에 뜨도록 높임
+  backdrop-filter: blur(5px);
+}
+
+.modal-content {
+  background: white;
+  padding: 30px;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 480px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  animation: slideDown 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+
+    h3 {
+      margin: 0;
+      font-size: 1.25rem;
+      color: #333;
+      font-weight: 700;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 28px;
+      color: #999;
+      cursor: pointer;
+      line-height: 1;
+      transition: color 0.2s;
+
+      &:hover {
+        color: #333;
+      }
+    }
+  }
+
+  .category-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px; // 요소 간의 간격 확보
+
+    .form-group {
+      display: flex;
+    //   flex-direction: column;
+    justify-content: space-between;
+      gap: 8px;
+      button{
+        margin: 0px;
+      }
+
+      label {
+        font-size: 14px;
+        font-weight: 600;
+        color: #555;
+      }
+
+      input{
+        width: 80%;
+      }
+
+      input,
+      select,
+      textarea {
+        padding: 12px;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        font-family: inherit;
+        font-size: 15px;
+        color: #333;
+        transition: all 0.2s;
+
+        &::placeholder {
+          color: #a0aec0;
+        }
+
+        &:focus {
+          outline: none;
+          border-color: #3182ce;
+          box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+        }
+      }
+
+      textarea {
+        height: 120px;
+        resize: none;
+        line-height: 1.5;
+      }
+
+      select {
+        cursor: pointer;
+        background-color: #fff;
+      }
+    }
+
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 10px;
+
+    }
+  }
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

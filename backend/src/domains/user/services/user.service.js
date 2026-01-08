@@ -54,33 +54,35 @@ class UserService {
     }
 
     // 2. 토큰 생성 (Payload에는 식별 가능한 idx나 id 등을 담습니다)
-    const payload = { idx: result.idx, id: result.u_id };
+    // const payload = { idx: result.idx, id: result.u_id };
 
     // Access Token (유효기간 짧게: 예: 1시간)
-    const accessToken = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
+    // const accessToken = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
 
     // Refresh Token (유효기간 길게: 예: 7일)
-    const refreshToken = jwt.sign({}, process.env.JWT_SECRET, { expiresIn: '7d' });
+    // const refreshToken = jwt.sign({}, process.env.JWT_SECRET, { expiresIn: '7d' });
 
     // 3. Redis에 Refresh Token 저장
     // Key: `refreshToken:회원IDX`, Value: `토큰문자열`, 옵션: 유효기간(초 단위)
     // 7일 = 7 * 24 * 60 * 60 초
-    await redisClient.set(
-      `refreshToken:${result.idx}`, 
-      refreshToken, 
-      { EX: 7 * 24 * 60 * 60 } 
-    );
+    // await redisClient.set(
+    //   `refreshToken:${result.idx}`, 
+    //   refreshToken, 
+    //   { EX: 7 * 24 * 60 * 60 } 
+    // );
+
+    return result;
 
 
     // 4. 컨트롤러에게 토큰과 멤버 정보 반환
-    return {
-      accessToken,
-      refreshToken,
-      user: {
-        idx: result.idx,
-        name: result.u_name
-      }
-    };
+    // return {
+    //   accessToken,
+    //   refreshToken,
+    //   user: {
+    //     idx: result.idx,
+    //     name: result.u_name
+    //   }
+    // };
   }
 
   // [추가됨] 로그아웃: Redis에서 Refresh Token 삭제

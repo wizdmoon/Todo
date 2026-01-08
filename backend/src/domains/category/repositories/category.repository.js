@@ -21,9 +21,9 @@ class CategoryRepository {
   }
 
   // 회원의 카테고리 목록 조회
-  async findByMIdx(midx) {
+  async findByUIdx(uidx) {
     const query = 'SELECT * FROM category WHERE u_idx = $1';
-    const result = await pool.query(query, [midx]);
+    const result = await pool.query(query, [uidx]);
     
     // 결과가 없으면 null 반환
     if (result.rows.length === 0) {
@@ -34,9 +34,9 @@ class CategoryRepository {
     return row;
   }
 
-  async findByIdx(midx, cidx) {
+  async findByIdx(uidx, cidx) {
     const query = 'SELECT * FROM category WHERE u_idx = $1 AND c_idx = $2';
-    const values = [midx, cidx]
+    const values = [uidx, cidx]
     const result = await pool.query(query, values);
     
     // 결과가 없으면 null 반환
@@ -51,7 +51,7 @@ class CategoryRepository {
   // 카테고리 추가
   async create(categoryData) {
     const query = 'INSERT INTO category (u_idx, c_name) VALUES ($1, $2)';
-    const values = [categoryData.midx, categoryData.cname];
+    const values = [categoryData.uidx, categoryData.cname];
 
     try {
       const result = await pool.query(query, values);
@@ -67,7 +67,7 @@ class CategoryRepository {
   // 카테고리 수정
   async update(cidx, categoryData) {
     const query = 'UPDATE category SET c_name = $1, updated_at = NOW() WHERE u_idx = $2 AND c_idx = $3';
-    const values = [categoryData.cname, categoryData.midx, cidx];
+    const values = [categoryData.cname, categoryData.uidx, cidx];
 
     try {
       const result = await pool.query(query, values);
@@ -80,9 +80,9 @@ class CategoryRepository {
   }
 
   // 카테고리 삭제
-  async delete(cidx, midx) {
+  async delete(cidx, uidx) {
     const query = 'DELETE FROM category WHERE c_idx = $1 AND u_idx = $2';
-    const values = [cidx, midx];
+    const values = [cidx, uidx];
     try {
       const result = await pool.query(query, values);
       if (result.rowCount === 0) {

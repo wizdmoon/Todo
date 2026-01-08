@@ -20,6 +20,7 @@ router.put('/:tidx/state', todoController.updateState);
 router.delete('/:tidx', todoController.deleteTodo);
 
 // 조회
-router.get('/:uidx', todoController.getTodosByDate);
+router.get('/:uidx', todoController.getTodos);
+
 
 module.exports = router;
